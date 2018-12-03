@@ -27,3 +27,45 @@ var primes = [2, 3, 5, 7]
 primes[0]
 primes.length
 var emptyArray = []
+
+// Arrays and objects can hold other arrays and objects:
+var points = [
+    {x:0, y:0},
+    {x:1, y:1}
+]
+
+//operators
+var count = 0;
+count++;
+count--;
+count +=2;
+count *=3;
+count //variable names are expressions, too.
+
+function plusOne(number){
+    return number + 1;
+}
+
+var square = function(number){
+    return number * number;
+};
+
+square(plusOne(1))
+
+var rectangle = {
+    width: 0,
+    height: 0,
+}
+
+//The "this" keyword refers to the object
+rectangle.isSquare = function(){
+    return this.width == this.height;
+}
+
+function abs(number){
+    var result = number;
+    if(number < 0){
+        result = -number;
+    } 
+    return result;
+}
