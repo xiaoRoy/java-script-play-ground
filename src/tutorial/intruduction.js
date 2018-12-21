@@ -20,3 +20,14 @@ Boolean(234) // true
 for(let index = 0; index < 5; index ++){
     //do something
 }
+
+// operators
+
+'3' + 4 + 5 // '345'
+3 + 5 + '5' // '345'
+
+123 == '123' //true
+1 == true //true
+
+123 === '123' //false
+1 === true //false
