@@ -24,10 +24,24 @@ for(let index = 0; index < 5; index ++){
 // operators
 
 '3' + 4 + 5 // '345'
-3 + 5 + '5' // '345'
+3 + 4 + '5' // '75'
 
 123 == '123' //true
 1 == true //true
 
 123 === '123' //false
 1 === true //false
+
+var numbers = [1, 2, 3, 4, 5]
+for(let value of numbers){
+    number ++
+}
+
+var myCat = {
+    "color" : "yellow",
+    "name"  : "meat ball"
+}
+
+for(let property in myCat){
+    print(property)
+}
