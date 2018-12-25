@@ -45,3 +45,27 @@ var myCat = {
 for(let property in myCat){
     print(property)
 }
+
+//Object
+var objectA = new Object()
+var objectB = {}
+
+var product = {
+    name: "X watch",
+    brand: "not a brand",
+    details: {
+        color: "siver",
+        size: "L"
+    }
+}
+
+product.brand 
+product.details.size
+product['details']['size']
+
+function Person(name, age){
+    this.name = name
+    this.age = age
+}
+
+var who = new Person('Jack', 12)

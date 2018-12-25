@@ -75,7 +75,7 @@ function Point(x, y) {
     this.y = y;
 }
 
-Point.prototype.r = function() {
+Point.prototype.distanceToZero = function() {
     return Math.sqrt(
         this.x * this.x +
         this.y + this.y
