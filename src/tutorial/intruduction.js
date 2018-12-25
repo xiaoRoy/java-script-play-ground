@@ -69,3 +69,27 @@ function Person(name, age){
 }
 
 var who = new Person('Jack', 12)
+
+//object
+var animals = new Array()
+animals[0] = 'cat'
+animals[1] = 'fish'
+animals[2] = 'dog'
+
+var animalsB = ['cat', 'fish', 'dog']
+animalsB[100] = 'fox'
+animalsB.length //101
+
+for(var index; index < animalsB.length; index ++){
+    //do something
+}
+
+//ES2015
+for(const aninmal of animalsB){
+     //do something
+}
+
+//ECMAScritpt5 
+animalsB.forEach(function(current, index, array){
+    //do something
+})
