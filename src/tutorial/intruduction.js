@@ -93,3 +93,47 @@ for(const aninmal of animalsB){
 animalsB.forEach(function(current, index, array){
     //do something
 })
+
+//Function 
+
+function add(one, another) {
+    var result = one + another
+    return result
+}
+
+add()//result:NaN
+
+add(2, 3, 5)//result:5
+
+function sum() {
+    var sum = 0
+    for(var index = 0, length = arguments.length; index < length; index ++){
+        sum += arguments[index]
+    }
+    return sum 
+}
+
+sum(2, 3, 4, 5) //result:14
+
+function avg() {
+    var sum = 0
+    for(var index = 0, length = arguments.length; index < length; index ++){
+        sum += arguments[index]
+    }
+    return sum / arguments.length
+}
+
+function avgB(...args) {
+    var sum = 0
+    for(let value of args) {
+        sum += value 
+    }
+    return sum / args.length
+}
+var annoymousAvg = function(...numbers) {
+    var sum = 0
+    for(let value of numbers) {
+        sum += value
+    }
+    return sum / numbers.length
+}
