@@ -137,3 +137,30 @@ var annoymousAvg = function(...numbers) {
     }
     return sum / numbers.length
 }
+
+//custom Object
+function PersonA(firstName, lastName) {
+    return {
+        firstName: firstName,
+        lastName: lastName,
+        fullName: function() {
+            return this.firstName + ' ' + this.lastName
+        },
+        fullNameReversed: function() {
+            return this.lastName + ',' + this.firstName 
+        }
+    }
+} 
+
+function PersonB(firstName, lastName) {
+    this.firstName = firstName
+    this.lastName = lastName
+
+    fullName = function() {
+        return this.firstName + ' ' + this.lastName
+    }
+
+    fullNameReversed = function() {
+        return this.lastName + ',' + this.firstName 
+    }
+}
