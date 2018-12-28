@@ -152,6 +152,7 @@ function PersonA(firstName, lastName) {
     }
 } 
 
+
 function PersonB(firstName, lastName) {
     this.firstName = firstName
     this.lastName = lastName
@@ -163,4 +164,17 @@ function PersonB(firstName, lastName) {
     fullNameReversed = function() {
         return this.lastName + ',' + this.firstName 
     }
+}
+
+function PersonC(firstName, lastName) {
+    this.firstName = firstName
+    this.lastName = lastName
+}
+
+PersonC.prototype.fullName = function() {
+    return this.firstName + ' ' + this.lastName
+}
+
+PersonC.prototype.fullNameReversed = function() {
+    return this.lastName + ',' + this.firstName 
 }
