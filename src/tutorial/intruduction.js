@@ -178,3 +178,25 @@ PersonC.prototype.fullName = function() {
 PersonC.prototype.fullNameReversed = function() {
     return this.lastName + ',' + this.firstName 
 }
+
+avg.apply(null, [1, 2, 3])
+
+function trivialNew(constructor, ...args) {
+    var aObject = {}
+    constructor.apply(aObject, args)
+    return aObject
+}
+
+var bill = trivialNew(PersonC, 'Will', 'Bill')
+//is therefore almost equivalent to
+var sameBill = new PersonC('will', 'bill')
+
+function parentFunc() {
+    var one = 1
+
+    function nestedFunc(){
+        var four = 4
+        return one + four
+    }
+    return nestedFunc()
+}
