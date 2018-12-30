@@ -1,3 +1,8 @@
+/**
+ * A re-introduction to JavaScript (JS tutorial)
+ * https://developer.mozilla.org/en-US/docs/Web/JavaScript/A_re-introduction_to_JavaScript
+ */
+
 //Number
 Math.sin(3.5)
 var circumference = 2 * Math.PI * 3
@@ -200,3 +205,15 @@ function parentFunc() {
     }
     return nestedFunc()
 }
+
+function makeAdder(one) {
+    return function(another) {
+        return one + another
+    }
+}
+
+var adderA = makeAdder(5)
+adderA(6) //11
+
+var adderB = makeAdder(20)
+adderB(7) //27
