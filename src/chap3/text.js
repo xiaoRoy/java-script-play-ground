@@ -9,4 +9,4 @@ var world = "wordl"
 var message = hello + world
 
 var name = "Huawei"
-var first = name[0] 
+var first = name[0] //"H"
