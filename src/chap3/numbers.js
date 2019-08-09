@@ -3,7 +3,7 @@ console.log(aInfinite);
 
 var theNaN = 0 / 0;
 console.log(theNaN);
-var notEquals = theNaN == theNaN;
+var notEquals = theNaN == theNaN; //=> false
 console.log(notEquals);
 console.log(isNaN(theNaN));
 
