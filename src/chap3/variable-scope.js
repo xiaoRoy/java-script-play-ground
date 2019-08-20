@@ -59,3 +59,11 @@ function showHoistingAnatomy() {
     one = "1"
     console.log(one); // => "1"
 }
+
+var name = "mary";
+function checkScopeAgainAndAgain() {
+    console.log(name); // => undefined not mary
+    var name = "local mary";
+    console.log(name); // => local mary
+}
+checkScopeAgainAndAgain();
