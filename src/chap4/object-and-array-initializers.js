@@ -1,3 +1,6 @@
+/**
+ * 4.2 Object and Array Initializers
+ */
 var sparseArray = [1,,,,5];
 
 var pointA = {
