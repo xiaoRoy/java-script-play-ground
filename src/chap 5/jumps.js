@@ -34,4 +34,9 @@ function factorial(number) {
     }
     return result;
 }
-console.log(factorial(-11));
+
+try {
+    console.log(factorial(-11));
+}catch(exception) {
+    console.log(exception.message);
+}
