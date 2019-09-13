@@ -15,9 +15,43 @@ var book = {
 }
 
 /**
- * 6.1.1 Creating Objects with new
+ * 6.1.2 Creating Objects with new
  */
 var object = new Object();
 var array = new Array();
 var date = new Date();
 var regex = new RegExp("js");
+
+/**
+ * 6.1.4 Object.create()
+ */
+
+ var user = Object.create({
+    firstName: "Peter",
+    lastName: "Parker"
+});
+
+var objectWithNullPrototype = Object.create(null);
+
+var firstEmpty = {};
+var secondEmpyt = new Object();
+var thridEmpty = Object.create(Object.prototype);
+
+function inherit(from) {
+    if(from == null) {
+        throw TypeError();
+    }
+
+    if(Object.create) {
+        return Object.create(from);
+    }
+
+    var type = typeof from;
+    if(type !== "object" && t !== "function") {
+        throw TypeError();
+    }
+
+    function dummyConstructor() {};
+    dummyConstructor.prototype = from
+    return new dummyConstructor();
+} 
