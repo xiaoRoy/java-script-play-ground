@@ -36,22 +36,3 @@ var objectWithNullPrototype = Object.create(null);
 var firstEmpty = {};
 var secondEmpyt = new Object();
 var thridEmpty = Object.create(Object.prototype);
-
-function inherit(from) {
-    if(from == null) {
-        throw TypeError();
-    }
-
-    if(Object.create) {
-        return Object.create(from);
-    }
-
-    var type = typeof from;
-    if(type !== "object" && t !== "function") {
-        throw TypeError();
-    }
-
-    function dummyConstructor() {};
-    dummyConstructor.prototype = from
-    return new dummyConstructor();
-} 
