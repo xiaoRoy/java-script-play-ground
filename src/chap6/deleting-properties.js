@@ -29,5 +29,17 @@ function testDeletingProperties() {
     delete employee.age; // TypeError in strict mode
 }
 
-testDeletingProperties();
+function test() {
+    'use strict'
+   
+    var phone = {model: undefined};
+
+    console.log(phone.model);
+}
+test();
+var one = "one";
+var test =  true && true && one.length;
+console.log(test);
+
+// testDeletingProperties();
 
