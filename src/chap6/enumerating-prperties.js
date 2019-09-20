@@ -67,7 +67,8 @@ function keys(one) {
     var result = [];
     for(var property in one) {
         if(one.hasOwnPropert(property)) {
-
+            result.push(property);
         }
     }
+    return result;
 }
