@@ -40,3 +40,20 @@ var book = Object.defineProperties({}, {
 });
 
 console.log(book.description);
+
+Object.defineProperty(Object.prototype, "extend", {
+    writable: true,
+    enumerable: false,
+    configurable: true,
+    value: function(one) {
+        var propertyNames = Object.getOwnPropertyNames(one);
+        for(var index = 0; index < propertyNames.length; index ++) {
+            var propertName = propertyNames[index]
+            if(propertName in this) {
+                continue;
+            }
+            var propertyDescriptor = Object.getOwnPropertyDescriptor(one, propertName);
+            Object.defineProperty(this, propertName);
+        }
+    }
+})
