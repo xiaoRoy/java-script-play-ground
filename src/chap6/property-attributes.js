@@ -56,4 +56,4 @@ Object.defineProperty(Object.prototype, "extend", {
             Object.defineProperty(this, propertName);
         }
     }
-})
+})  
