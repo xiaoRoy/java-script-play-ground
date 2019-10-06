@@ -7,7 +7,7 @@ var what = [[1, { x: 1, y: 3 }], [2, {x: 3, y: 4}]];
 var count = [1,,3]; //=> length is 3
 console.log(count.length);
 
-var undefindeds = [,,];//An array with 2 elements, both undefined.
+var undefindeds = [,,];//Array elements for which values are omitted do not exist, but appear to be undefined if you query them
 
 var anotherEmptyArray = Array();
 var arrayA = Array(10); // => length is 10
