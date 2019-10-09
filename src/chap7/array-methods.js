@@ -97,3 +97,25 @@ console.log(numbersF);
  stack.push(3); // => stack [1, 3]
  stack.push(['a', 'b']) // => stack [1, 3, ['a', 'b']]
  console.log(stack);
+
+ /**
+  * 7.8.8 unshift() and shift()
+  */
+
+var numbersG = [];
+numbersG.unshift(1); // => [1], returns length 1
+numbersG.unshift(22); // => [22, 1], returns length 2
+numbersG.unshift(333); // => [333, 22, 1], returns length 3
+var shiftResultA = numbersG.shift();  // => [22, 1], returns first element 333
+console.log(shiftResultA);
+
+numbersG.unshift(3, [4, 5]); // => [3, [4, 5], 22, 1], returns length 4
+
+/**
+ * 7.8.9 toString() and toLocaleString()
+ */
+
+[1, 2, 44, 4].toString(); // => '1, 2, 44, 4'
+['a', 'b', 'f'].toString(); // => 'a, b, f'
+var toStringResult = [1, 2, [3, 'a', 'b'], 4].toString(); // => '1, 2, 3, a, b, 4'
+console.log(toStringResult);
