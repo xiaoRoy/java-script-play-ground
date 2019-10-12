@@ -82,3 +82,44 @@ var filterReusltB = arrayA.filter(function (element, index) {
 console.log(filterReusltB);
 console.log("undefined !== null is " + (undefined !== null));
 console.log("undefined != null is " + (undefined != null));
+
+/**
+ * 7.9.4 every() and some()
+ */
+
+var numbersE = [1, 2, 3, 4, 5, 6];
+var everyResultA = numbersE.every(function (element, index, array) {
+    return element < 10;
+});
+var someResultA = numbersE.some(function (element) {
+    return element % 2 == 0;
+});
+
+var emptyArray = [];
+var everyResultB = emptyArray.every(function (element) {
+    return false;
+});
+console.log(everyResultB); // => true
+
+var someResultB = emptyArray.some(function () {
+    return true;
+});
+console.log(someResultB); // => false
+
+/**
+ * 7.9.5 reduce(), reduceRight()
+ */
+
+console.log("===================");
+var numbersF = [1, 2, 3, 4, 5];
+var sumC = numbersF.reduce(function (accumulated, element, index, array) {
+    console.log("index:" + index);
+    console.log("accumulated:" + accumulated);
+    return accumulated + element;
+}, 0);
+console.log(sumC); // => 15
+
+var product = numbersF.reduce(function (accumulated, element, index, array) {
+    return accumulated * element;
+}, 1);
+console.log(product); // => 120
