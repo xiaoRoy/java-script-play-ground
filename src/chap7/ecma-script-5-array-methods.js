@@ -134,16 +134,29 @@ var reduceRightResult = numbersG.reduceRight(function (accumulated, element, ind
 });
 console.log(reduceRightResult);// => 6
 
-function unionAnother(one, another) {
+
+/*
+* Copy the enumerable properties of anohter to one, and return one.
+* If one and another have a property by the same name, the values from another are used.
+* This function does not handle getters and setters or copy attributes. */
+function extendAnother(one, another) {
     for (var property in another) {
         one[property] = another[property];
     }
     return one;
 }
+
+/*
+* Return a new object that holds the properties of both one and another.
+* If one and another have properties by the same name, the values from one are used. */
+function unionAnother(one, another) {
+    return extendAnother(extendAnother({}, one), another);
+}
+
 // [{x:1,a:1}, {y:2,a:2}, {z:3,a:3}]
 var objects = [{ x: 1, a: 1 }, { y: 2, a: 2 }, { z: 3, a: 3 }];
 var reduceObjectsResult = objects.reduce(unionAnother); // => { x: 1, a: 3, y: 2, z: 3 }
 console.log(reduceObjectsResult);
 
 var reduceRightObjectResult = objects.reduceRight(unionAnother);
-console.log(reduceRightObjectResult); // => { z: 3, a: 3, y: 2, x: 1 }
+console.log(reduceRightObjectResult); // => { z: 3, a: 1, y: 2, x: 1 }
