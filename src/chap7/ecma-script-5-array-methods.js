@@ -110,7 +110,7 @@ console.log(someResultB); // => false
  * 7.9.5 reduce(), reduceRight()
  */
 
-console.log("===================");
+
 var numbersF = [1, 2, 3, 4, 5];
 var sumC = numbersF.reduce(function (accumulated, element, index, array) {
     console.log("index:" + index);
@@ -123,3 +123,27 @@ var product = numbersF.reduce(function (accumulated, element, index, array) {
     return accumulated * element;
 }, 1);
 console.log(product); // => 120
+
+var max = numbersF.reduce(function (accumulated, element, index, array) {
+    return (accumulated > element) ? accumulated : element;
+});
+
+var numbersG = [2, 3, 11];
+var reduceRightResult = numbersG.reduceRight(function (accumulated, element, index, array) {
+    return accumulated - element;
+});
+console.log(reduceRightResult);// => 6
+
+function unionAnother(one, another) {
+    for (var property in another) {
+        one[property] = another[property];
+    }
+    return one;
+}
+// [{x:1,a:1}, {y:2,a:2}, {z:3,a:3}]
+var objects = [{ x: 1, a: 1 }, { y: 2, a: 2 }, { z: 3, a: 3 }];
+var reduceObjectsResult = objects.reduce(unionAnother); // => { x: 1, a: 3, y: 2, z: 3 }
+console.log(reduceObjectsResult);
+
+var reduceRightObjectResult = objects.reduceRight(unionAnother);
+console.log(reduceRightObjectResult); // => { z: 3, a: 3, y: 2, x: 1 }
