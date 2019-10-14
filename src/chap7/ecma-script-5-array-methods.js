@@ -160,3 +160,30 @@ console.log(reduceObjectsResult);
 
 var reduceRightObjectResult = objects.reduceRight(unionAnother);
 console.log(reduceRightObjectResult); // => { z: 3, a: 1, y: 2, x: 1 }
+
+/**
+ * 7.9.6 indexOf() and lastIndexOf()
+ */
+
+ var numbersH = [0, 1, 2, 1, 4, 0];
+ var firstOneIndex = numbersH.indexOf(1); // => 1
+ var lastOneIndex= numbersH.lastIndexOf(1); // => 3
+ var notFound = numbersH.indexOf(44); // => -1
+
+ function findAll(searchElement, array) {
+    var result = [];
+    var length = array.length;
+    var index = 0;
+    while(index < length) {
+        index = array.indexOf(searchElement, index);
+        if(index === -1) {
+            break;
+        }
+        result.push(index);
+        index ++;
+    }
+    return result;
+ }
+
+ var allOneIndex = findAll(1, numbersH);
+ console.log(allOneIndex); // => [1, 3]
