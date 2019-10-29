@@ -32,3 +32,14 @@ var square = function(number) {return number * number}
 
 var tenSquare = (function(number){return number * number})(10);
 console.log(tenSquare);
+
+/**
+ * 8.1.1 Nested Functions
+ */
+
+ function hypotenuse(one, another) {
+    function square(number) {
+        return number * number;
+    }
+    return Math.sqrt(square(one) + square(another));
+ }
