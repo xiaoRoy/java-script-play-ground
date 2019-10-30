@@ -19,4 +19,38 @@ var calculator = {
 calculator.add();
 console.log(calculator.result)
 calculator["add"]()
-calculator[2]()
+
+var what = {};
+what[0] = 1;
+console.log(what[0]);
+
+var rect = {
+    width: 3,
+    height: 4,
+    setSize: function(width, height) {
+        this.width = width;
+        this.height = height;
+    }
+}
+
+
+var nested = {
+    run: function() {
+        var self = this;
+        console.log(this === nested);
+        runInside();
+        function runInside() {
+            console.log(this === nested);
+            console.log(self === nested);
+        }
+    }
+}
+nested.run();
+
+function Rect(width, height) {
+    this.width = width;
+    this.height = height;
+}
+
+var rectB = new Rect(4.1, 4.2);
+console.log(rectB.width);
