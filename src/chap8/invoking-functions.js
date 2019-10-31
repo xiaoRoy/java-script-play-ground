@@ -54,3 +54,6 @@ function Rect(width, height) {
 
 var rectB = new Rect(4.1, 4.2);
 console.log(rectB.width);
+
+var what = Rect(1, 3);
+console.log(what); // => undefined
