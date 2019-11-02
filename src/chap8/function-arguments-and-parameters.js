@@ -55,3 +55,52 @@ function same(onlyOne) {
 }
 
 same("first");
+
+function factorial(number) {
+    var result;
+    if (number <= 1) {
+        result = 1;
+    } else {
+        result = number * arguments.callee(number - 1);
+    }
+    return result;
+}
+
+var reusltFactorial = factorial(5);
+console.log(reusltFactorial);
+
+
+/**
+ * 8.3.3 Using Object Properties As Arguments
+ */
+function arrayCopy(from, fromStartIndex, to, toStartIndex, length) {
+
+    for (var toIndex = to.length - 1 + length; toIndex >= toStartIndex; toIndex--) {
+        to[toIndex] = to[toIndex - length]
+    }
+
+    for (var offset = 0; offset < length; offset++) {
+        to[toStartIndex + offset] = from[fromStartIndex + offset]
+    }
+    return to;
+}
+
+function easyCopy(all) {
+    return arrayCopy(
+        all.from,
+        all.fromStartIndex || 0,
+        all.to,
+        all.toStartIndex || 0,
+        all.length
+    )
+}
+
+var arrayCopied = easyCopy({
+    from: [4, 4, 4],
+    fromStartIndex: 0,
+    to:[1, 2, 3, 9],
+    toStartIndex: 0,
+    length: 2
+})
+
+console.log(arrayCopied);
