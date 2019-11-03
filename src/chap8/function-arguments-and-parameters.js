@@ -104,3 +104,53 @@ var arrayCopied = easyCopy({
 })
 
 console.log(arrayCopied);
+
+/**
+ * 8.3.4 Argument Types
+ */
+function sumArray(array) {
+    if(Array.isArray(array)) {
+        var result = 0;
+        for(var index = 0; index < array.length; index ++) {
+            var current = array[index];
+            if(current == null) continue;
+            if(isFinite(current)) {
+                result += current;
+            } 
+            else throw new Error("sumArray(): elements must be finite numbers");
+        }
+        return result;
+    } 
+    else throw new Error("sumArray(): argument must be an array");
+}
+
+var sumArrayResult = sumArray([1, 2, 3]);
+console.log(sumArrayResult);
+
+function flexiableSum(array) {
+    'use strict'
+    var total = 0;
+    var length = arguments.length;
+    for(var index = 0; index < length; index ++) {
+        var current = arguments[index];
+        var temp;
+        if(current == null) continue;
+        if(Array.isArray(current)) {
+            temp = flexiableSum.apply(this, current);
+        } else if(typeof current === "function") {
+            temp = Number(current())
+        } else {
+            temp = Number(current)
+        }
+        if(isNaN(temp)) {
+            throw new Error("flexiabeSum(): can't convert " + current + " to number");
+        }
+        total += temp;
+    }
+    return total;
+}
+var sumResultA = flexiableSum(function() {
+    return 5;
+});
+
+console.log(sumResultA);
