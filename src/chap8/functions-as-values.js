@@ -37,8 +37,34 @@ function calculate(operator, operandA, operandB) {
 
 var operators = {
     add: add,
-    subtract: subtract
+    subtract: subtract,
+    multiply: multiply,
+    divide: function(one, another) {
+        return one / another;
+    },
+    pow: Math.pow
 }
 
 var resultA = operators.add(1, 1);
 console.log(resultA);
+
+function doCalculation(operation, one, another) {
+    if(typeof operators[operation] === "function") {
+        return operators[operation](one, another)
+    }
+    else throw new Error("Unknown operation");
+}
+
+var message = doCalculation("add", "hello", doCalculation("add", " ", "world"));
+console.log(message);
+var resultB = doCalculation("pow", 4, 4);
+console.log(resultB);
+
+simplyAdd.count = 0;
+function simplyAdd(one, another) {
+    simplyAdd.count ++;
+    return one + another;
+}
+var resultC = simplyAdd(1, 1);
+console.log(resultC);
+console.log(simplyAdd.count);
