@@ -91,7 +91,13 @@ console.log(factorialResult);
     // Module code goes here.
 }());
 
-var extend = function () {
+/**
+ * 8.5 Functions As Namespaces
+ */
+var extend = (function () {
+    var prototypeProperties = ["toString", "valueOf", "constructor",
+    "isPropertyOf", "propertyIsEnumerable", "toLocalString"];
+
     for (var testProperty in { toString: null }) {
         return function extend(object) {
             for(var index = 1; index < arguments.length; index ++) {
@@ -99,8 +105,8 @@ var extend = function () {
                 for(var property in source) {
                     object[property] = source[property];
                 }
-                return object;
             }
+            return object;
         }
     }
     return function extendFixed(object) {
@@ -109,6 +115,13 @@ var extend = function () {
             for(var property in source) {
                 object[property] = source[property];
             }
+            for(var indexJ = 0; indexJ < prototypeProperties.length; indexJ ++) {
+                var anotherProperty = prototypeProperties[indexJ];
+                if(source.hasOwnProperty(anotherProperty)) {
+                    object[anotherProperty] = source[anotherProperty];
+                }
+            }
         }
-    }
-}
+        return object;
+    };
+}());
