@@ -78,3 +78,19 @@ function addPrivateProperty(object, name, prediccate) {
         }
     }
 }
+
+var initialObject = {};
+addPrivateProperty(initialObject, "Name", function(added) {return typeof added == "string";});
+initialObject.setName("Frank");
+console.log(initialObject.getName())
+
+function constantFunciton(input) {
+    return function() {return input;};
+} 
+
+var functions = [];
+for(var index = 0; index < 10; index ++) {
+    functions[index] = constantFunciton(index);
+}
+var constatnFunctionResult = functions[4]();
+console.log(constatnFunctionResult);
