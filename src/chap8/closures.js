@@ -71,26 +71,55 @@ function addPrivateProperty(object, name, prediccate) {
     var value;
     object["get" + name] = function () { return value; };
     object["set" + name] = function (newValue) {
-        if(prediccate && !prediccate(newValue)) {
+        if (prediccate && !prediccate(newValue)) {
             throw new Error("set" + name + ": invalid value " + newValue);
-        } else  {
+        } else {
             value = newValue;
         }
     }
 }
 
 var initialObject = {};
-addPrivateProperty(initialObject, "Name", function(added) {return typeof added == "string";});
+addPrivateProperty(initialObject, "Name", function (added) { return typeof added == "string"; });
 initialObject.setName("Frank");
 console.log(initialObject.getName())
 
 function constantFunciton(input) {
-    return function() {return input;};
-} 
+    return function () { return input; };
+}
 
 var functions = [];
-for(var index = 0; index < 10; index ++) {
+for (var index = 0; index < 10; index++) {
     functions[index] = constantFunciton(index);
 }
 var constatnFunctionResult = functions[4]();
-console.log(constatnFunctionResult);
+console.log(constatnFunctionResult); // => 4
+
+function constantFuncitonWithinLoop() {
+    var functions = [];
+    for (var index = 0; index < 10; index++) {
+        functions[index] = function () { return index; }
+    }
+    return functions;
+}
+
+var functionsB = constantFuncitonWithinLoop();
+var constantFuncitonWithinLoopResult = functionsB[5]();
+console.log(constantFuncitonWithinLoopResult);
+
+function getThisInNested() {
+    var self = this;
+    return function() {
+        return self;
+    }
+}
+var thisResult = getThisInNested()();
+
+function getOuterArgumentsLength() {
+    var outerArguments = arguments;
+    return function() {
+        return outerArguments.length;
+    }
+}
+var argumentsLength = getOuterArgumentsLength(1, 22, "b", {}, null)();
+console.log(argumentsLength);
