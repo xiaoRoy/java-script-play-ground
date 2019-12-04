@@ -1,10 +1,10 @@
-(function() {
-
-}());
 
 /**
  * 8.5 Functions As Namespaces
  */
+(function() {
+
+}());
 
  // extend is the namespace
  var extend = (function () {

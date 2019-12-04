@@ -83,6 +83,7 @@ var initialObject = {};
 addPrivateProperty(initialObject, "Name", function (added) { return typeof added == "string"; });
 initialObject.setName("Frank");
 console.log(initialObject.getName())
+console.log(initialObject["getName"]());
 
 function constantFunciton(input) {
     return function () { return input; };
