@@ -52,6 +52,13 @@ function Rect(width, height) {
     this.height = height;
 }
 
+class RectAnohter {
+    constructor(width, height) {
+        this.width = width;
+        this.height = height;
+    }
+}
+
 var rectB = new Rect(4.1, 4.2);
 console.log(rectB.width);
 
