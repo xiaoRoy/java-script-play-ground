@@ -68,14 +68,42 @@ target.add(1, 22);
  * 8.7.4 The bind() Method
  */
 
- function what(one) {
-     return this.x + one
- }
+function what(one) {
+    return this.x + one
+}
 
- var objectA = {
-     x: 1
- }
+var objectA = {
+    x: 1
+}
 
- var whatB = what.bind(objectA);
- var resultB = whatB(2);
- console.log(resultB); // => 3
+var whatB = what.bind(objectA);
+var resultB = whatB(2);
+console.log(resultB); // => 3
+console.log(objectA);
+
+function anohterBind(func, object) {
+    var binded = func.bind(object);
+    if(binded) {
+        return binded;
+    } else {
+        return function() {
+            func.apply(object, arguments);
+        }
+    }
+}
+
+var sum = function(one, another) {
+    return one + another;
+}
+
+var sumBinded = sum.bind(null, 2);
+var resultC = sumBinded(3); // => 5
+console.log(resultC);
+
+function sumMore(one, another) {
+    return this.first + one + another;
+}
+
+var sumMoreBinded = sumMore.bind({first: 34}, 4);
+var resultD = sumMoreBinded(3);
+console.log(resultD); // => 41
