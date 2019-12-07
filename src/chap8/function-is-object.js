@@ -46,17 +46,17 @@ console.log(maximumA);
 
 function trace(object, method) {
     var original = object[method]
-    object[method] = function() {
-        console.log(new Date(), "Entering:" , method);
+    object[method] = function () {
+        console.log(new Date(), "Entering:", method);
         console.log(this);// this here is the object parameter
         var result = original.apply(this, arguments);
-        console.log(new Date(), "Exiting:" , method);
+        console.log(new Date(), "Exiting:", method);
         return result;
     }
 }
 
 var target = {
-    add: function(one, another) {
+    add: function (one, another) {
         return one + anohter;
     }
 }
@@ -83,16 +83,16 @@ console.log(objectA);
 
 function anohterBind(func, object) {
     var binded = func.bind(object);
-    if(binded) {
+    if (binded) {
         return binded;
     } else {
-        return function() {
+        return function () {
             func.apply(object, arguments);
         }
     }
 }
 
-var sum = function(one, another) {
+var sum = function (one, another) {
     return one + another;
 }
 
@@ -104,6 +104,48 @@ function sumMore(one, another) {
     return this.first + one + another;
 }
 
-var sumMoreBinded = sumMore.bind({first: 34}, 4);
+var sumMoreBinded = sumMore.bind({ first: 34 }, 4);
 var resultD = sumMoreBinded(3);
 console.log(resultD); // => 41
+
+var module = {
+    x: 42,
+    getX: function () {
+        return this.x;
+    }
+}
+
+var unboundGetx = module.getX
+console.log(unboundGetx()); // => unedfiend
+var boundGetX = module.getX.bind(module);
+console.log(boundGetX()); // => 42
+
+if (!Function.prototype.bind) {
+    Function.prototype.bind = function (object, /*, args */) {
+        var self = this;
+        var boundArgs = arguments;
+
+        return function () {
+            var args = [];
+            var index;
+            for (index = 1; index < boundArgs.length; index++) {
+                args.push(boundArgs[index]);
+            }
+            for (index = 0; index < arguments.length; index++) {
+                args.push(arguments[index]);
+            }
+            return self.apply(object, args);
+        }
+    }
+}
+
+var rectangle = {
+    width: 3,
+    height: 4
+}
+
+rectangle.calculateArae = function () {
+    return this.width * this.height;
+}
+
+console.log(rectangle.calculateArae()); // => 12
