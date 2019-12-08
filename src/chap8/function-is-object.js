@@ -149,3 +149,109 @@ rectangle.calculateArae = function () {
 }
 
 console.log(rectangle.calculateArae()); // => 12
+
+/**
+ * 8.7.5 The toString() Method
+ */
+var what = function() {
+    return "what";
+}
+
+console.log(what.toString());
+
+console.log(Math.max.toString());
+
+/**
+ * 8.7.6 The Function() Constructor
+ */
+
+var multiply = new Function("one", "another", "return one * another");
+var resultE = multiply(4, 5);
+console.log(resultE);
+
+function showClassAttribute(object) {
+    var result = Object.prototype.toString.call(object);
+    console.log(result);
+}
+
+
+var pointA = {
+    x:3,
+    y:4,
+    getX: function() {
+       return this.x; 
+    }
+}
+showClassAttribute(pointA.getX); // => [object Function]
+/**
+ * 8.8.1 Processing Arrays with Functions
+ */
+var data = [1,1,3,5,5];
+var doSum = function(accumulator, element) {
+    return accumulator + element;
+}
+var sum = data.reduce(doSum);
+var doSquare = function(one) {
+    return one * one;
+}
+
+var mean = sum / data.length;
+console.log("mean:" + mean);
+var deviations = data.map(function(element){ return element - mean });
+console.log("deviations:" + deviations);
+var standardDeviation = Math.sqrt(deviations.map(doSquare).reduce(doSum) / (data.length - 1));
+console.log(standardDeviation);
+
+var map = Array.prototype.map ? function(array, transform, object) { return array.map(transform, object)}
+            : function(array, transform) {
+                var result = [];
+                for(var index = 0, length = array.length; index < length; index ++) {
+                    if(index in array) {
+                        result[index] = transform.call(object || null, array[index], index, array)
+                    }
+                }
+                return result;
+            }
+
+
+function invokeReduce(array, aggregate, initial) {
+    if(arguments.length > 2) {
+        return array.reduce(aggregate, initial);
+    } else {
+        return array.reduce(aggregate);
+    }
+}
+
+function makeAReduce(array, aggregate, initial) {
+    var index = 0;
+    var length = array.length;
+    var accumulator;
+    if(arguments.length > 2) {
+        accumulator = initial;
+    } else {
+        if(length == 0) throw TypeError();
+        while(index < length) {
+            if(index in array) {
+                accumulator = a[index ++];
+                break;
+            } else {
+                index ++
+            }
+        }
+    }
+    while(index < length) {
+        if(index in array) {
+            accumulator = aggregate.call(undefined, accumulator, array[index], index, array);
+        }
+        index ++
+    }
+    return accumulator;
+}
+var reduce = Array.prototype.reduce ? invokeReduce : makeAReduce
+
+var anotherData = [1, 1, 3, 5, 5];
+var anohterMean = reduce(anotherData, doSum) / anotherData.length;
+var anotherDeviations = map(anotherData, function(element) { return element - anohterMean});
+var anotherStandardDeviation = 
+    Math.sqrt(reduce(map(anotherDeviations, doSquare), doSum) / (anotherData.length - 1));
+console.log(anotherStandardDeviation);
