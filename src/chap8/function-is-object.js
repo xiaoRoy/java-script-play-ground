@@ -255,3 +255,47 @@ var anotherDeviations = map(anotherData, function(element) { return element - an
 var anotherStandardDeviation = 
     Math.sqrt(reduce(map(anotherDeviations, doSquare), doSum) / (anotherData.length - 1));
 console.log(anotherStandardDeviation);
+
+/**
+ * 8.8.2 Higher-Order Functions
+ */
+
+ function not(operation) {
+    return function() {
+        var result = operation.apply(this, arguments);
+        return !result;
+    }
+ }
+
+ var isEven = function(number) {
+    return number % 2 == 0;
+ }
+
+ var isOdd = not(isEven);
+
+var isAllOddNumber = [3, 5, 1, 21].every(isOdd);
+console.log(isAllOddNumber);
+
+function mapper(operation) {
+    return function(array) {
+        return array.map(operation);
+    }
+}
+
+function doIncrement(number) {
+    return number + 1;
+}
+
+var incrementer = mapper(doIncrement);
+var resultF = incrementer([2, 3, 5]);
+console.log(resultF);
+
+function compose(firstOp, secondOp) {
+    return function() {
+        return firstOp.call(this, secondOp.apply(this, arguments));
+    }
+}
+
+var squareOfSum = compose(doSquare, doSum);
+var resultG = squareOfSum(2, 3);
+console.log(resultG);
