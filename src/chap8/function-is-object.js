@@ -299,3 +299,83 @@ function compose(firstOp, secondOp) {
 var squareOfSum = compose(doSquare, doSum);
 var resultG = squareOfSum(2, 3);
 console.log(resultG);
+
+function array(array, start) {
+    return Array.prototype.slice.call(array, start || 0);
+}
+
+function partialLeft(func, /*, ... */) {
+    var args = arguments;
+    return function() {
+        var finalArgs = array(args, 1);
+        finalArgs = finalArgs.concat(array(arguments));
+        return func.apply(this, finalArgs);
+    }
+}
+
+function partialRight(func, /*, ... */) {
+    var args = arguments;
+    return function() {
+        var finalArgs = array(arguments);
+        finalArgs = finalArgs.concat(array(args, 1));
+        return func.apply(this, finalArgs);
+    }
+}
+
+function partial(func, /*, ...*/) {
+    var args = arguments;
+    return function() {
+        var finalArgs = array(args, 1);
+        var index = 0, anohterIndex = 0;
+        for(; index < finalArgs.length; index ++) {
+            if(finalArgs[index] === undefined) {
+                finalArgs[index] = arguments[anohterIndex ++]
+            }
+        }
+        finalArgs = finalArgs.concat(array(arguments, anohterIndex));
+        return func.apply(this, finalArgs);
+    }
+}
+
+var calulateOne = function(first, second, third) {
+    return first * (second - third);
+}
+
+var resultLeft = partialLeft(calulateOne, 2)(3, 4); // => -2
+console.log(resultLeft);
+var resultRight = partialRight(calulateOne, 2)(3, 4); // => 6
+console.log(resultRight);
+var resultM = partial(calulateOne, undefined,  2)(3, 4); // => -6
+console.log(resultM);
+
+var increment = partialLeft(doSum, 1);
+var cuberRoot = partialRight(Math.pow, 1 / 3);
+var resultR = cuberRoot(27);
+console.log(resultR);
+
+
+String.prototype.first = partial(String.prototype.charAt, 0);
+console.log("apple".first());
+
+var getLastString = function(text) {
+    return text.slice(-1);
+}
+var lastInString = partial(getLastString);
+var resultLast = lastInString("Books");
+console.log(resultLast);
+
+var anotherNot = partialLeft(compose, function(input){return !input});
+var anotherIsEven = anotherNot(isOdd);
+var isNumber = anotherNot(isNaN);
+var reusltN = isNumber(22);
+console.log(reusltN);
+
+var dataB = [1, 1, 3, 5, 5];
+var sumB = function(one, another) {
+    return one + another;
+}
+var productB = function(one, another) {
+    return one * another;
+}
+
+var negative = partial(productB, -1);
