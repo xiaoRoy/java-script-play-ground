@@ -322,6 +322,10 @@ function partialRight(func, /*, ... */) {
     }
 }
 
+var testSquare = partialRight(Math.pow, 2);
+var testReuslt = testSquare(4);
+console.log("testResult:" + testReuslt);
+
 function partial(func, /*, ...*/) {
     var args = arguments;
     return function() {
@@ -378,4 +382,24 @@ var productB = function(one, another) {
     return one * another;
 }
 
-var negative = partial(productB, -1);
+var negativeB = partial(productB, -1);
+var squareB = partialRight(Math.pow, 2);
+var sqrtB = partial(Math.pow, undefined, 0.5);
+var reciprocalB = partial(Math.pow, undefined, -1);
+
+var meanB = productB(reduce(dataB, sumB), reciprocalB(dataB.length));
+var whatB = compose(squareB, partial(sumB, negativeB(meanB)));
+var whereB = reduce(map(dataB, whatB), sumB)
+var standardDeviationB = sqrtB(productB(whereB, reciprocalB(sumB(dataB.length, -1))))
+console.log(standardDeviationB); //  =>2 
+
+/**
+ * 8.8.4 Memoization
+ */
+
+ function memoize(func) {
+    var cahce = {};
+    return function() {
+        var key = arguments.length + Array.prototype.join.call(arguments, ",");
+    }
+ }
