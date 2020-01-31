@@ -401,5 +401,36 @@ console.log(standardDeviationB); //  =>2
     var cahce = {};
     return function() {
         var key = arguments.length + Array.prototype.join.call(arguments, ",");
+        if(key in cahce) {
+            return cahce[key];
+        } else {
+            return cahce[key] = func.apply(this, arguments);
+        }
     }
  }
+
+ function calculateGreatestCommonDivisor(one, anohter) {
+    var temp;
+    if(one < anohter) {
+        temp = anohter;
+        anohter = one;
+        one = temp;
+    }
+    while(anohter != 0) {
+        temp = anohter;
+        anohter = one % anohter;
+        one = temp;
+    }
+    return one;
+ }
+
+ var calculateGreatestCommonDivisorWithCache = memoize(calculateGreatestCommonDivisor);
+ var resultZ = calculateGreatestCommonDivisorWithCache(85, 187);
+ console.log(resultZ);
+
+ var factorail = memoize(function(number){
+     return (number <= 1) ? 1 : number * factorail(number - 1);
+ });
+
+ var resultY = factorail(5);
+ console.log(resultY);
