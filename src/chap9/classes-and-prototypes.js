@@ -1,14 +1,14 @@
 function inherit(from) {
-    if(from == null) {
+    if (from == null) {
         throw TypeError();
     }
 
-    if(Object.create) {
+    if (Object.create) {
         return Object.create(from);
     }
 
     var type = typeof from;
-    if(type !== "object" && type !== "function") {
+    if (type !== "object" && type !== "function") {
         throw TypeError();
     }
 
@@ -27,17 +27,17 @@ function range(from, to) {
     return result;
 }
 range.methods = {
-    includes: function(input) {
+    includes: function (input) {
         return this.from <= input && input <= this.to;
     },
 
-    foreach: function(operation) {
-        for(var index = Math.ceil(this.from); index <= this.to; index ++) {
+    foreach: function (operation) {
+        for (var index = Math.ceil(this.from); index <= this.to; index++) {
             operation(index);
         }
     },
 
-    toString: function() {
+    toString: function () {
         return "(" + this.from + "..." + this.to + ")";
     }
 
@@ -49,7 +49,7 @@ console.log(rangeA);
 var isInRangA = rangeA.includes(4);
 console.log(isInRangA);
 
-rangeA.foreach(function(index) {
+rangeA.foreach(function (index) {
     console.log(index);
 });
 
@@ -62,17 +62,17 @@ function RangeWithConstructor(from, to) {
 }
 
 RangeWithConstructor.prototype = {
-    includes: function(input) {
+    includes: function (input) {
         return this.from <= input && input <= this.to;
     },
 
-    foreach: function(operation) {
-        for(var index = Math.ceil(this.from); index <= this.to; index ++) {
+    foreach: function (operation) {
+        for (var index = Math.ceil(this.from); index <= this.to; index++) {
             operation(index);
         }
     },
 
-    toString: function() {
+    toString: function () {
         return "(" + this.from + "..." + this.to + ")";
     },
 }
@@ -81,6 +81,36 @@ var rangeB = new RangeWithConstructor(1, 4);
 console.log(rangeB);
 var isInRangB = rangeB.includes(4);
 console.log(isInRangB);
-rangeB.foreach(function(index) {
+rangeB.foreach(function (index) {
     console.log(index);
 });
+
+/**
+ * 9.2.1 Constructors and Class Identity
+ */
+
+function Rectangle(width, height) {
+    this.width = width;
+    this.height = height;
+}
+
+Rectangle.prototype = {
+    width: 0,
+    height: 0,
+    area: function () {
+        return this.width * this.height;
+    }
+}
+
+function Square(width) {
+    this.width = width
+    this.height = width
+}
+Square.prototype = Rectangle.prototype
+
+var square = new Square(4);
+var area = square.area();
+console.log(area);
+
+var isRectangle =  square instanceof Rectangle
+console.log(isRectangle);
