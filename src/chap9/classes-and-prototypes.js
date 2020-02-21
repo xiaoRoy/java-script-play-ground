@@ -95,6 +95,7 @@ function Rectangle(width, height) {
 }
 
 Rectangle.prototype = {
+    constructor: Rectangle,
     width: 0,
     height: 0,
     area: function () {
@@ -112,5 +113,28 @@ var square = new Square(4);
 var area = square.area();
 console.log(area);
 
-var isRectangle =  square instanceof Rectangle
-console.log(isRectangle);
+var isRectangle = square instanceof Rectangle
+console.log(isRectangle); // => true
+
+/**
+ * 9.2.2 The constructor Property
+ */
+
+var Book = function () { };
+var prototypeOfBook = Book.prototype;
+var constructorOf = prototypeOfBook.constructor;
+var isEqual = (constructorOf === Book);
+console.log(isEqual);
+var bookA = new Book();
+var hasConstructorProperty = (bookA.constructor === Book)
+console.log(hasConstructorProperty); // => true
+
+var rangeC = new RangeWithConstructor(1, 4);
+console.log(Rectangle.prototype.constructor); // => function Rectangle(width, height) { … }
+
+function Product(id, name) { }
+console.log(Product.prototype.constructor); // => function Product(id, name) { … }
+
+function Cup(id) {}
+Cup.prototype = {}
+console.log(Cup.prototype.constructor); // => function Object() { … }
