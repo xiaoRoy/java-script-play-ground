@@ -221,3 +221,69 @@ var reusltA = Complex
     .add(new Complex(4, 4).negative())
     .equals(Complex.ZERO);
 console.log("Complex ResultB:" + reusltA);
+
+
+/**
+ * 9.4 Augmenting Classes
+ */
+Complex.prototype.conjugate = function() {
+    return new Complex(this.real, -this.imaginary);
+}
+
+String.prototype.isNotEmpty = function() {
+    return this.trim().length > 0;
+}
+
+var resultC = "".isNotEmpty();
+console.log(resultC);
+
+/**
+ * 9.5.1 The instanceof operator
+ */
+var complexD = new Complex(4, 4);
+var resultD = Complex.prototype.isPrototypeOf(complexD);
+console.log(resultD);
+
+/**
+ * 9.5.2 The constructor property
+ */
+
+ function typeAndVaue(input) {
+    if (input == null) return "";
+    switch(input.constructor) {
+        case Number: return "Number:" + input;
+        case String: return "String:" + input;
+        case Date: return "Date:" + input;
+        case Complex: return "Complex:" + input;
+    }
+ }
+
+ var resultE = typeAndVaue(31);
+ console.log(resultE);
+
+ /**
+  * 9.5.3 The Constructor Name
+  */
+
+
+function typeofShowcase() {
+    showTypeof("Number", 123);
+    showTypeof("String", "a");
+    showTypeof("Boolean", true);
+    showTypeof("Function", function(){});
+    showTypeof("Array", [1, "a"]);
+    showTypeof("Date", new Date());
+    showTypeof("Regex", /^\{([^,]+),([^}]+)\}$/);
+    showTypeof("Object", {x: 1, y:2});
+    showTypeof("undefined", undefined);
+    showTypeof("null", null);
+}
+typeofShowcase();
+
+function showTypeof(type, value) {
+    console.log(type + ":" + value + " is typeof " + typeof value);
+}
+
+function classOf() {
+
+}
