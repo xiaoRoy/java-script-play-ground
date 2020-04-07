@@ -151,3 +151,82 @@ console.log("FortyCents:" + fortyCents);
 var coinComparison = Coin.Nickel > Coin.Penny;
 console.log("coinComparison:" + coinComparison);
 console.log(String(Coin.Quarter) + ":" + Coin.Quarter);
+
+
+function Card(suit, rank) {
+    this.suit = suit;
+    this.rank = rank;
+}
+
+Card.Suit = enumration({ Clubs: 1, Diamonds: 2, Hearts: 3, Spadess: 4 });
+Card.Rank = enumration({
+    Two: 2, Three: 3, Four: 4, Five: 5, Six: 6, Seven: 7,
+    Eight: 8, Nine: 9, Ten: 10, Jack: 11, Queen: 12, King: 13, Ace: 14
+});
+Card.prototype.toString = function() {
+    return this.rank.toString() + " of " + this.suit.toString();
+}
+
+Card.prototype.compareTo = function(that) {
+    var result = 0;
+    if(this.rank < that.rank) {
+        result = -1;
+    } else if (this.rank > that.rank) {
+        result = 1;
+    }
+    return result;
+}
+
+Card.orderByRank = function(one, anohter) {
+    return one.compareTo(anohter);
+}
+
+Card.orderBySuit = function(one, anohter) {
+    var result = 0;
+    if(one.suit < anohter.suit) {
+        result = -1;
+    } else if(one.suit > anohter.suit) {
+        result = 1;
+    } else {
+        result = Card.orderByRank(one, anohter);
+    }
+    return result;
+}
+
+function Deck() {
+    this.cards = [];
+    var cards = this.cards;
+    Card.Suit.forEach(function(suit) {
+        Card.Rank.forEach(function(rank) {
+            cards.push(new Card(suit, rank));
+        });
+    });
+}
+
+Deck.prototype.shuffle = function() {
+    var cards = this.cards;
+    var length = cards.length;
+    for(var index = length - 1; index > 0; index -- ) {
+        var temp;
+        var random = Math.floor(Math.random() * (index + 1));
+        temp = cards[index];
+        cards[index] = cards[random];
+        cards[random] = temp;
+    }
+    return this;
+}
+
+Deck.prototype.deal = function(count) {
+    var remainingCount = this.cards.length;
+    if(count > remainingCount) {
+        throw "Out of cards"
+    }
+    return this.cards.splice(remainingCount - count, count);
+}
+
+var deck = new Deck();
+deck.shuffle();
+var hand = deck.deal(13).sort(Card.orderBySuit);
+hand.forEach(function(card) {
+    console.log(card.toString());
+});
