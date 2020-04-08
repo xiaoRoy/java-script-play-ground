@@ -102,7 +102,7 @@ function enumration(namesToValues) {
         constructor: Enumration,
         toString: function () { return this.name; },
         valueOf: function () { return this.value; },
-        toJson: function () { return this.name },
+        toJSON: function () { return this.name },
     }
 
     Enumration.values = [];
@@ -230,3 +230,47 @@ var hand = deck.deal(13).sort(Card.orderBySuit);
 hand.forEach(function(card) {
     console.log(card.toString());
 });
+
+function extand(to, from) {
+    for(var propertyName in from) {
+        to[propertyName] = from[propertyName];
+    }
+    return to;
+}
+
+extand(Set.prototype, {
+    toString: function() {
+        var result = "{";
+        var index = 0;
+        this.forEach(function(element) {
+            result += ((index ++ > 0) ? ", " : "") + element;
+        });
+        return result + "}";
+    },
+    toLocaleString: function() {
+        var result = "{";
+        var index = 0;
+        this.forEach(function(element){
+            if(index ++ > 0) result += ", ";
+            if(element == null) result += element;
+            else result += element.toLocaleString();
+        });
+        return result + "}";
+    },
+    toArray: function() {
+        var result = [];
+        this.forEach(function(element) {
+            result.push(element);
+        })
+        return result;
+    }
+}); 
+Set.prototype.toJSON = Set.prototype.toArray;
+var setB = new Set(["hello", "what"]);
+console.log(setB.toString());
+
+var setC = new Set("hi", null, "where");
+console.log(setC.toLocaleString());
+
+var setD = new Set("one", "three", "four");
+console.log(setD.toJSON() + "");
