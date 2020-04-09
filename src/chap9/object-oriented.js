@@ -1,3 +1,6 @@
+/**
+ * 9.6.1 Example: A Set Class
+ */
 function Set() {
     this.values = {}
     this.count = 0;
@@ -39,6 +42,23 @@ Set.prototype.forEach = function (operation, context) {
         if (this.values.hasOwnProperty(value)) { // ignore inherited properties
             operation.call(context, this.values[value]);
         }
+    }
+}
+
+Set.prototype.equals = function(that) {
+    if (this === that) return true;
+    
+    if(!(that instanceof Set)) return false;
+
+    if(this.count != that.count) return false;
+
+    try {
+        this.forEach(function(elementInThis) {
+            if(!that.contains(elementInThis)) throw false
+        })
+    }catch(exception){
+        if(exception === false) return false
+        throw exception
     }
 }
 
@@ -92,7 +112,9 @@ set.remove(3);
 console.log("hasAElement:" + hasAElement);
 console.log("set count:" + set.count);
 
-
+/**
+ * 9.6.2 Example: Enumerated Types
+ */
 function enumration(namesToValues) {
     var Enumration = function () {
         throw "Can't Instantiate Enumartions";
@@ -238,6 +260,10 @@ function extand(to, from) {
     return to;
 }
 
+
+/**
+ * 9.6.3 Standard Conversion Methods
+ */
 extand(Set.prototype, {
     toString: function() {
         var result = "{";
@@ -274,3 +300,6 @@ console.log(setC.toLocaleString());
 
 var setD = new Set("one", "three", "four");
 console.log(setD.toJSON() + "");
+
+var isEqualesBC = setB.equals(setC);
+console.log(isEqualesBC);

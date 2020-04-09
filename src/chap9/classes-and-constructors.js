@@ -7,6 +7,7 @@ function RangeWithConstructor(from, to) {
 }
 
 RangeWithConstructor.prototype = {
+    constructor: RangeWithConstructor,
     includes: function (input) {
         return this.from <= input && input <= this.to;
     },
@@ -20,6 +21,12 @@ RangeWithConstructor.prototype = {
     toString: function () {
         return "(" + this.from + "..." + this.to + ")";
     },
+
+    equals: function(that) {
+        if (that == null) return false;
+        if (that.constructor != RangeWithConstructor) return false
+        return this.from == that.from && this.to == that.to;
+    }
 }
 
 var rangeB = new RangeWithConstructor(1, 4);
