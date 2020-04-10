@@ -60,6 +60,7 @@ Set.prototype.equals = function(that) {
         if(exception === false) return false
         throw exception
     }
+    return true;
 }
 
 Set._valueToString = function (value) {
@@ -95,14 +96,14 @@ Set._valueToString = function (value) {
 
 Set._valueToString.next = 100;
 
-Set.prototype.cotains = function (value) {
+Set.prototype.contains = function (value) {
     return this.values.hasOwnProperty(Set._valueToString(value));
 }
 
 
 
 var set = new Set("a");
-var hasAElement = set.cotains("a");
+var hasAElement = set.contains("a");
 set.add(3);
 set.forEach(function (element) {
     console.log(this.name + "'s " + element);
@@ -303,3 +304,10 @@ console.log(setD.toJSON() + "");
 
 var isEqualesBC = setB.equals(setC);
 console.log(isEqualesBC);
+
+var setE = new Set("one", "three", "four");
+var isEqualsED = setE.equals(setD);
+console.log(isEqualsED);
+
+var isEqualsCE = setC.equals(setE);
+console.log(isEqualsCE);

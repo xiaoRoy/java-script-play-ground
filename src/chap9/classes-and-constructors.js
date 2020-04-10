@@ -26,6 +26,9 @@ RangeWithConstructor.prototype = {
         if (that == null) return false;
         if (that.constructor != RangeWithConstructor) return false
         return this.from == that.from && this.to == that.to;
+    },
+    compareTo: function(that) {
+        return this.from - that.from;
     }
 }
 
@@ -36,6 +39,17 @@ console.log(isInRangB);
 rangeB.foreach(function (index) {
     console.log(index);
 });
+
+/**
+ * 9.6.4 Comparison Methods
+ */
+
+ var rangeD = new RangeWithConstructor(0, 4);
+ var rangeE = new RangeWithConstructor(3, 4);
+ var ranges = [rangeB, rangeD, rangeE];
+ ranges.sort();
+ var firstRange = ranges[0];
+ console.log(firstRange);
 
 /**
  * 9.2.1 Constructors and Class Identity
