@@ -6,6 +6,10 @@ function RangeWithConstructor(from, to) {
     this.to = to;
 }
 
+RangeWithConstructor.byLowerBound = function(one, another) {
+    return one.compareTo(another);
+}
+
 RangeWithConstructor.prototype = {
     constructor: RangeWithConstructor,
     includes: function (input) {
@@ -22,13 +26,18 @@ RangeWithConstructor.prototype = {
         return "(" + this.from + "..." + this.to + ")";
     },
 
-    equals: function(that) {
+    equals: function (that) {
         if (that == null) return false;
         if (that.constructor != RangeWithConstructor) return false
         return this.from == that.from && this.to == that.to;
     },
-    compareTo: function(that) {
-        return this.from - that.from;
+    compareTo: function (that) {
+        if (!(that instanceof RangeWithConstructor)) throw Error("Can't compare a range with " + that);
+        var diff = this.from - that.from;
+        if (diff == 0) {
+            diff = this.to - that.to;
+        }
+        return diff;
     }
 }
 
@@ -44,12 +53,12 @@ rangeB.foreach(function (index) {
  * 9.6.4 Comparison Methods
  */
 
- var rangeD = new RangeWithConstructor(0, 4);
- var rangeE = new RangeWithConstructor(3, 4);
- var ranges = [rangeB, rangeD, rangeE];
- ranges.sort();
- var firstRange = ranges[0];
- console.log(firstRange);
+var rangeD = new RangeWithConstructor(0, 4);
+var rangeE = new RangeWithConstructor(3, 4);
+var ranges = [rangeB, rangeD, rangeE];
+ranges.sort();
+var firstRange = ranges[0];
+console.log(firstRange);
 
 /**
  * 9.2.1 Constructors and Class Identity
@@ -110,3 +119,15 @@ console.log(Product.prototype.constructor); // => function Product(id, name) { â
 function Cup(id) { }
 Cup.prototype = {}
 console.log(Cup.prototype.constructor); // => function Object() { â€¦ }
+
+ /**
+  * 9.6.3 borrowing methods
+  */
+var generic = {
+    toString: function() {
+        var reuslt = "["
+        if(this.constructor && this.constructor.name) {
+            reuslt += this.constructor.name + ": ";
+        }
+    }
+}
