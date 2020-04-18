@@ -129,5 +129,25 @@ var generic = {
         if(this.constructor && this.constructor.name) {
             reuslt += this.constructor.name + ": ";
         }
+        var count = 0;
+        for (var propertyName in this) {
+            if(!this.hasOwnProperty(name)) continue;
+            var value = this[propertyName];
+            if (typeof value === "function") continue;
+            if (count++) reuslt += ", ";
+            reuslt += propertyName + '=' + value;
+        }
+        return s + ']';
+    },
+
+    equals: function(that) {
+        if (that == null) return false;
+        if (this.constructor != this.constructor) return false;
+        for(var propertyName in this) {
+            if(propertyName === "**objectid**") continue;
+            if(!this.hasOwnProperty(propertyName)) continue;
+            if (this[name] !== that[name]) return false;
+        }
+        return true
     }
 }
