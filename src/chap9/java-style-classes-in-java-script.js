@@ -54,7 +54,7 @@ Complex.ONE = new Complex(1, 0);
 Complex.I = new Complex(0, 1);
 Complex._format = /^\{([^,]+),([^}]+)\}$/;
 
-Complex.pares = function (input) {
+Complex.parse = function (input) {
     try {
         var result = Complex._format.exec(input);
         console.log(result);
@@ -69,10 +69,14 @@ var complexB = new Complex(complexA.real, complexA.imaginary);
 console.log(complexA.add(complexB).toString());
 
 var reusltA = Complex
-    .pares("{4,4}")
+    .parse("{4,4}")
     .add(new Complex(4, 4).negative())
     .equals(Complex.ZERO);
 console.log("Complex ResultB:" + reusltA);
+
+Complex.polar = function(radius, theta) {
+    return new Complex(radius * Math.cos(theta), radius * Math.sin(theta));
+}
 
 
 /**

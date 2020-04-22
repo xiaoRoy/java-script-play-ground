@@ -6,8 +6,15 @@ function Set() {
     this.count = 0;
     this.add.apply(this, arguments);
 }
+
+Set.fromArray = function(array) {
+    var set = new Set();
+    // set.add(array);
+    set.add.apply(set, array);
+    return set;
+}
 // Before adding the add() in the prototype,
-// It throws a ypeError: Cannot read property 'apply' of undefined
+// It throws a TypeError: Cannot read property 'apply' of undefined
 // new Set();
 
 Set.prototype.add = function () {
@@ -293,9 +300,9 @@ extand(Set.prototype, {
     }
 }); 
 Set.prototype.toJSON = Set.prototype.toArray;
-var setB = new Set(["hello", "what"]);
-console.log(setB.toString());
-
+var setB = new Set(["hello", "what"]); //=> count is 1 
+console.log("setB:" + setB.toString());
+console.log("setB.count:" + setB.count);
 var setC = new Set("hi", null, "where");
 console.log(setC.toLocaleString());
 

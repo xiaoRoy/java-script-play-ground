@@ -33,11 +33,15 @@ var is45InRagne = range.includes(45);
 console.log(is4InRange);
 console.log(is45InRagne);
 
+
+/**
+ * 9.6.7 Constructor Overloading and Factory Methods
+ */
 function isArrayLike(object) {
     var length = object.length;
     return object &&
-        typeof object === "object"
-    isFinite(length) &&
+        typeof object === "object" &&
+        isFinite(length) &&
         length > 0 &&
         length === Math.floor(length) &&
         length < Math.pow(2, 32)
@@ -49,11 +53,11 @@ function SetWithArray() {
     var argumentsLength = arguments.length;
     if (argumentsLength == 1 && isArrayLike(arguments[0])) {
         this.add.apply(this, arguments[0]);
-    } else if(argumentsLength > 0) {
+    } else if (argumentsLength > 0) {
         this.add.apply(this, arguments);
     }
 }
 
-SetWithArray.prototype.add = function() {
+SetWithArray.prototype.add = function () {
     // place holder method
 }
