@@ -1,7 +1,7 @@
 /**
  * 9.6.1 Example: A Set Class
  */
-function Set() {
+export function Set() {
     this.values = {}
     this.count = 0;
     this.add.apply(this, arguments);
