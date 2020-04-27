@@ -1,7 +1,7 @@
-import { Set } from "./object-oriented.js"
+// import { Set } from "./object-oriented.js"
 
-var setA = new Set(1, 4, 44);
-console.log(setA.toString())
+// var setA = new Set(1, 4, 44);
+// console.log(setA.toString())
 
 function Animal() {}
 
@@ -25,14 +25,31 @@ function inherit(from) {
     return new Dummy();
 }
 
-function defineSubClass(superClass, constructor, methods, statics) {
-    constructor.prototype = inherit(superClass.prototype);
-    constructor.prototype.constructor = constructor;
+function defineSubClass(superClass, subClass, methods, statics) {
+    subClass.prototype = inherit(superClass.prototype);
+    subClass.prototype.constructor = subClass;
+    if(methods) {
+        copyProperties(methods, subClass.prototype);
+    }
+
+    if(statics) {
+        copyProperties(statics, subClass);
+    } 
+
+    return subClass;
 }
 
-function copyPropertiest(from, to) {
+function copyProperties(from, to) {
     for(var propertyName in from) {
         to[propertyName] = from[propertyName];
     }
     return to;
 }
+
+Function.prototype.extendBy = function(constructor, methods, statics) {
+    return defineSubClass(this, constructor, methods, statics);
+}
+
+var SmallCat = Cat.extendBy(function(name) {this.name = name});
+var smallCatA = new SmallCat("What");
+console.log(smallCatA.name);
