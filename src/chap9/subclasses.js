@@ -58,6 +58,10 @@ function Set() {
     //placeholder 
 }
 
+Set.prototype.add = function () {
+    // placeholder
+}
+
 function SingletonSet(onlyOne) {
     this.onlyOne = onlyOne;
 }
@@ -67,12 +71,54 @@ SingletonSet.prototype.constructor = SingletonSet;
 copyProperties({
     add: function () { throw "Read Only Set" },
     remove: function () { throw "Read Only Set" },
-    size: function() {return 1},
-    foreach: function(operation, context) {
+    size: function () { return 1 },
+    foreach: function (operation, context) {
         operation.call(context, this.onlyOne);
     },
-    contains: function(element) {
+    contains: function (element) {
         return element === this.onlyOne;
     }
 
 }, SingletonSet.prototype);
+
+
+function NonNullSet() {
+    Set.apply(this, arguments);
+}
+
+NonNullSet.prototype = Object.create(NonNullSet.prototype);
+NonNullSet.prototype.constructor = NonNullSet;
+NonNullSet.prototype.add = function () {
+    for (var index = 0, length = arguments.length; index < length; index++) {
+        var argument = arguments[index];
+        if (argument == null) {
+            throw new Error("Can't add null or undefined to NonNullSet.");
+        }
+    }
+    return Set.prototype.add.apply(this, arguments);
+}
+
+
+function createSetSubClass(SuperClass, predication) {
+    var SubClass = function () {
+        //call parent constructor
+        SuperClass.apply(this, arguments);
+    }
+    SubClass.prototype = Object.create(SuperClass.prototype)
+    SubClass.prototype.constructor = SubClass;
+    SubClass.prototype.add = function () {
+        for (var index = 0, length = arguments.length; index < length; index++) {
+            var element = arguments[index];
+            if (!predication(element)) {
+                throw Error("element " + element + " rejected by filter");
+            }
+        }
+        SuperClass.prototype.add.apply(this, arguments);
+    }
+    return SubClass;
+}
+
+var StringSet = createSetSubClass(Set, function (element) { return typeof element === "string" });
+var stringSetA = new StringSet();
+ stringSetA.add("a");
+//stringSetA.add(1); => throw Error: element 1 rejected by filter 
