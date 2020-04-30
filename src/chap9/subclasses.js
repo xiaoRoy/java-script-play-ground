@@ -8,6 +8,7 @@ function Animal() { }
 function Cat() { }
 
 Cat.prototype = Object.create(Animal.prototype);
+// Cat.prototype = new Animal(); // is it the same?
 Cat.prototype.constructor = Cat
 var catA = new Cat();
 var isCatAnimal = catA instanceof Animal
@@ -46,16 +47,16 @@ function copyProperties(from, to) {
     return to;
 }
 
-Function.prototype.extendBy = function (constructor, methods, statics) {
+Function.prototype.extendedBy = function (constructor, methods, statics) {
     return defineSubClass(this, constructor, methods, statics);
 }
 
-var SmallCat = Cat.extendBy(function (name) { this.name = name });
+var SmallCat = Cat.extendedBy(function (name) { this.name = name });
 var smallCatA = new SmallCat("What");
 console.log(smallCatA.name);
 
 function Set() {
-    //placeholder 
+    //placeholder  
 }
 
 Set.prototype.add = function () {
@@ -120,5 +121,27 @@ function createSetSubClass(SuperClass, predication) {
 
 var StringSet = createSetSubClass(Set, function (element) { return typeof element === "string" });
 var stringSetA = new StringSet();
- stringSetA.add("a");
+stringSetA.add("a");
 //stringSetA.add(1); => throw Error: element 1 rejected by filter 
+
+var NonNullSetSecond = (function () {
+    var superClass = Set
+    return superClass.extendedBy(
+        function () { superClass.apply(this, arguments); },// constructor
+        {   //methods
+            add: function () { 
+                console.log("add");
+                for(var index = 0, length = arguments.length; index < length; index ++){
+                    var element = arguments[index];
+                    if(element == null) {
+                        throw new Error("Can't add null or undefined");
+                    }
+                }
+                return superClass.prototype.add.apply(this, arguments);
+            }
+        },
+    )
+}());
+var setC = new NonNullSetSecond();
+//Error: Can't add null or undefined
+//setC.add(null); 
