@@ -3,6 +3,10 @@
 // var setA = new Set(1, 4, 44);
 // console.log(setA.toString())
 
+
+/**
+ * 9.7.1 Defining a Subclass
+ */
 function Animal() { }
 
 function Cat() { }
@@ -53,7 +57,7 @@ Function.prototype.extendedBy = function (constructor, methods, statics) {
 
 var SmallCat = Cat.extendedBy(function (name) { this.name = name });
 var smallCatA = new SmallCat("What");
-console.log(smallCatA.name);
+console.log(smallCatA.name); // => What
 
 function Set() {
     //placeholder  
@@ -61,6 +65,22 @@ function Set() {
 
 Set.prototype.add = function () {
     // placeholder
+}
+
+Set.prototype.remove = function () {
+    // placeholder
+}
+
+Set.prototype.size = function () {
+    // placeholder
+}
+
+Set.prototype.forEach = function (operation, context) {
+    //placeholder
+}
+
+Set.prototype.contains = function (element) {
+    //placeholder
 }
 
 function SingletonSet(onlyOne) {
@@ -82,7 +102,9 @@ copyProperties({
 
 }, SingletonSet.prototype);
 
-
+/**
+ * 9.7.2 Constructor and Method Chaining
+ */
 function NonNullSet() {
     Set.apply(this, arguments);
 }
@@ -123,17 +145,19 @@ var StringSet = createSetSubClass(Set, function (element) { return typeof elemen
 var stringSetA = new StringSet();
 stringSetA.add("a");
 //stringSetA.add(1); => throw Error: element 1 rejected by filter 
+var MySet = new createSetSubClass(Set, function(element){return typeof element !== "function"} );
+new MySet().add(function(){});
 
 var NonNullSetSecond = (function () {
     var superClass = Set
     return superClass.extendedBy(
         function () { superClass.apply(this, arguments); },// constructor
         {   //methods
-            add: function () { 
+            add: function () {
                 console.log("add");
-                for(var index = 0, length = arguments.length; index < length; index ++){
+                for (var index = 0, length = arguments.length; index < length; index++) {
                     var element = arguments[index];
-                    if(element == null) {
+                    if (element == null) {
                         throw new Error("Can't add null or undefined");
                     }
                 }
@@ -145,3 +169,44 @@ var NonNullSetSecond = (function () {
 var setC = new NonNullSetSecond();
 //Error: Can't add null or undefined
 //setC.add(null); 
+
+
+/**
+ * 9.7.3 Composition Versus Subclassing
+ */
+
+var CompositionSet = Set.extendedBy(
+    function (set, predication) {
+        this.set = set;
+        this.predication = predication;
+    }, // param: constructor
+    {
+        add: function () {
+            if (this.predication) {
+                for (var index = 0, length = arguments.length; index < length; index++) {
+                    var element = arguments[index];
+                    if (!this.predication(element)) {
+                        throw new Error("FilterdSet: element " + element + " rejected by filter.");
+                    }
+                }
+                this.set.add.apply(this.set, arguments);
+                return this;
+            }
+        },
+        remove: function () {
+            this.set.remove.apply(this.set, arguments);
+            return this;
+        },
+        contains: function (element) {
+            return this.set.contains(element);
+        },
+        size: function () {
+            return this.set.size;
+        },
+        forEach: function (operation, context) {
+            return this.set.forEach(operation, context);
+        }
+    }, // param: methods
+)
+
+var nonNullSetThird = new CompositionSet(new Set(), function (element) { return element != null; })
