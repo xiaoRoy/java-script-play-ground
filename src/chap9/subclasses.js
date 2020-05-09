@@ -145,9 +145,6 @@ var StringSet = createSetSubClass(Set, function (element) { return typeof elemen
 var stringSetA = new StringSet();
 stringSetA.add("a");
 //stringSetA.add(1); => throw Error: element 1 rejected by filter 
-var MySet = new createSetSubClass(Set, function(element){return typeof element !== "function"} );
-new MySet().add(function(){});
-
 var NonNullSetSecond = (function () {
     var superClass = Set
     return superClass.extendedBy(
@@ -210,3 +207,184 @@ var CompositionSet = Set.extendedBy(
 )
 
 var nonNullSetThird = new CompositionSet(new Set(), function (element) { return element != null; })
+// nonNullSetThird.add(null); Error: FilterdSet: element null rejected by filter.
+
+
+function abstractMehtod() {
+    throw new Error("abstract method");
+}
+
+function AbstractSet() { new Error("Can't instantiate abstract class") }
+AbstractSet.prototype.contains = abstractMehtod;
+
+var NotSet = AbstractSet.extendedBy(
+    function (set) { this.set = set }, // constructor
+    {
+        contains: function (element) {
+            return !this.set.contains(element);
+        },
+
+        toString: function () {
+            return "~" + this.set.toString();
+        },
+
+        equals: function (that) {
+            return that instanceof NotSet && this.set.equals(that.set);
+        }
+    }// methods
+);
+
+
+
+var AbstractEnumerableSet = AbstractSet.extendedBy(
+    function () { throw Error("Can't instantiate abract class") }, // constructor
+    {
+        size: abstractMehtod,
+        foreach: abstractMehtod,
+        isEmpty: function () { return this.size == 0; },
+        toString: function () {
+            var result = "{";
+            var index = 0;
+            this.foreach(function (element) {
+                if (index++ > 0) result += ", ";
+                result += element;
+            });
+            return result + "}";
+        },
+        toLocaleString: function () {
+            var result = "{";
+            var index = 0;
+            this.foreach(function (element) {
+                if (index++ > 0) result += ", ";
+                if (element == null) {
+                    result += element;
+                } else {
+                    result += element.toLocaleString();
+                }
+                return result + "}";
+            })
+        },
+
+        toArray: function () {
+            var result = [];
+            this.foreach(function (element) {
+                result.push(element);
+            });
+            return result;
+        },
+
+        equals: function (that) {
+            if (!(that instanceof AbstractEnumerableSet)) return false;
+            if (this.size() != that.size()) return false;
+            try {
+                this.foreach(function (element) {
+                    if (!that.contains(element)) throw false
+                })
+            } catch (exception) {
+                if (exception == false) return false;
+                throw exception
+            }
+        }
+    }// methods
+);
+
+var SingletonSetSecond = AbstractEnumerableSet.extendedBy(
+    function (onlyOne) { this.onlyOne = onlyOne }, //constructor
+    {
+        contains: function (value) {
+            return value === this.onlyOne;
+        },
+
+        size: function () {
+            return 1;
+        },
+
+        foreach: function (operation, context) {
+            operation.call(context, this.onlyOne);
+        }
+    }, //methods
+);
+
+var singletonSetA = new SingletonSetSecond("what");
+console.log("====Singleton Set====");
+console.log(singletonSetA.toString());
+console.log(singletonSetA.contains("where"));
+console.log("====End of Singleton Set====");
+
+var notSetA = new NotSet(singletonSetA);
+console.log("====Not Set====");
+console.log(notSetA.contains({}));
+console.log(notSetA.toString());
+console.log("====End of Not Set====");
+
+var AbstractWritableSet = AbstractEnumerableSet.extendedBy(
+    function () { throw new Error("Can't instantiate abstract class") }, //constrctor
+
+    {
+        add: abstractMehtod,
+        remove: abstractMehtod,
+        union: function (another) {
+            var self = this;
+            another.foreach(function (element) {
+                self.add(element);
+            });
+            return this;
+        },
+
+        intersection: function (another) {
+            var self = this;
+            another.foreach(function (element) {
+                if (!self.contains(element)) {
+                    self.remove(element);
+                }
+                return this;
+            });
+        },
+
+        difference: function (another) {
+            var self = this;
+            another.foreach(function (element) {
+                self.remove(element);
+            });
+            return this;
+        }
+    }, //methods
+);
+
+var ArraySet = AbstractWritableSet.extendedBy(
+    function () {
+        this.values = [];
+        this.add.apply(this, arguments);
+    }, //constructor
+
+    {
+        contains: function (element) {
+            return this.values.indexOf(element) > -1;
+        },
+
+        size: function () {
+            return this.values.length;
+        },
+
+        add: function () {
+            for (var index = 0, length = arguments.length; index < length; index++) {
+                var element = arguments[index];
+                if (!this.contains(element)) {
+                    this.values.push(element);
+                }
+            }
+            return this;
+        },
+
+        remove: function () {
+            for (var index = 0, length = arguments.length; index < length; index++) {
+                var element = arguments[index];
+                var indexInArray = this.values.indexOf(element);
+                if(indexInArray != -1) {
+                    this.values.splice(indexInArray, 1);
+                }
+            }
+            return this;
+        }
+    }, //methods
+);
